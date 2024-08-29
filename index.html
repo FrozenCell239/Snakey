@@ -10,11 +10,21 @@
         <link rel="stylesheet" href="./assets/css/app.min.css">
 
         <!-- JS scripts -->
-        <script src="./assets/js/index.js" defer></script>
+        <script src="./assets/js/app.js" type="module" defer></script>
     </head>
     <body>
-        <header></header>
-        <main></main>
+        <header>
+            <select id="keyset_select">
+                <option value="ZQSD">ZQSD</option>
+                <option value="WASD">WASD</option>
+            </select>
+        </header>
+        <main>
+            <aside>
+                Your score : <span id="score">0</span>
+            </aside>
+            <canvas width="400" height="400" id="canvas"></canvas>
+        </main>
         <footer></footer>
     </body>
 </html>

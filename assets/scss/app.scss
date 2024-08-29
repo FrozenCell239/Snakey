@@ -10,15 +10,23 @@
     color: $font_main_color;
 }
 html, body{
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
     margin: 0;
 }
 body{
-    background-color: $background_color;
-    position: absolute;
+    background: $background_color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-main{
-    min-height: 100vh;
-    padding: 0 50px 0 50px;
+
+/* Main feature zone */ 
+canvas{
+    border: $default_border;
+    background-color: #aaaaaa;
 }
+
+/* Keyset selector */
+// .keyset_select{
+//     top: 0;
+// }
