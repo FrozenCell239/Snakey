@@ -1,9 +1,9 @@
 import { Snake } from './Entity/Snake.js';
 import { Fruit } from './Entity/Fruit.js';
 
-const grid = 16;
+const grid_size = 16;
 const snake = new Snake();
-const apple = new Fruit(320, 320, grid);
+const apple = new Fruit(320, 320, grid_size);
 const score_zone = document.getElementById('score');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -40,13 +40,13 @@ function loop(){
   
     // Teleport the snake to the other side of the canvas if it goes out of bounds
     if(snake.x < 0){
-        snake.x = canvas.width - grid;
+        snake.x = canvas.width - grid_size;
     }
     else if(snake.x >= canvas.width){
         snake.x = 0;
     };
     if(snake.y < 0){
-        snake.y = canvas.height - grid;
+        snake.y = canvas.height - grid_size;
     }
     else if(snake.y >= canvas.height){
         snake.y = 0;
@@ -60,13 +60,13 @@ function loop(){
   
     // Draw apple
     context.fillStyle = 'red';
-    context.fillRect(apple.x, apple.y, grid-1, grid-1);
+    context.fillRect(apple.x, apple.y, grid_size - 1, grid_size - 1);
   
     // Draw snake one cell at a time
     context.fillStyle = 'green';
     snake.cells.forEach(function(cell, index){
         // Drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-        context.fillRect(cell.x, cell.y, grid-1, grid-1);
+        context.fillRect(cell.x, cell.y, grid_size - 1, grid_size - 1);
 
         // Snake ate an apple
         if(cell.x === apple.x && cell.y === apple.y){
@@ -85,7 +85,7 @@ function loop(){
                 snake.y = 160;
                 snake.cells = [];
                 snake.length = 4;
-                snake.dx = grid;
+                snake.dx = grid_size;
                 snake.dy = 0;
 
                 apple.respawn();
