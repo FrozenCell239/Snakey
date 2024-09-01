@@ -3,7 +3,7 @@ import { Fruit } from './Entity/Fruit.js';
 
 const grid_size = 16;
 const snake = new Snake();
-const apple = new Fruit(320, 320, grid_size);
+const apple = new Fruit();
 const score_zone = document.getElementById('score');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -11,6 +11,50 @@ const keyset_select = document.getElementById('keyset_select');
 let keyset = ['Z', 'Q', 'S', 'D'];
 let score = 0;
 let count = 0;
+let players;
+let least_best_score;
+
+async function getFakePlayers(min_score = 2, max_score = 6){
+    try{
+        const response = await fetch('https://randomuser.me/api/?results=30');
+        const data = await response.json();
+        let new_players = [];
+
+        data.results.forEach(new_player => {
+            new_players.push({
+                username: new_player.login.username,
+                score: Math.floor(Math.random() * (max_score - min_score)) + min_score
+            });
+        });
+        return new_players.sort((a, b) => b.score - a.score);
+    }
+    catch(error){
+        console.error(error);
+    };
+};
+
+function updateScoreboard(){
+    const scoreboard = document.getElementById('scoreboard');
+    const number_of_players = 20;
+    for(let i = 0; i < number_of_players; i++){
+        const new_player = document.createElement('tr');
+        new_player.innerHTML = `<td>${players[i].username}</td><td>${players[i].score}</td>`;
+        scoreboard.appendChild(new_player);
+        if(i + 1 === number_of_players){
+            least_best_score = players[i].score;
+        };
+    };
+};
+
+// Checking local storage for highscores
+if(localStorage.getItem('snake_players') === null){
+    players = await getFakePlayers()
+    localStorage.setItem('snake_players', JSON.stringify(players));
+}
+else{
+    players = JSON.parse(localStorage.getItem('snake_players'));
+}
+updateScoreboard();
 
 // Keyset selection
 keyset_select.addEventListener('change', function(event){
@@ -29,7 +73,7 @@ keyset_select.addEventListener('change', function(event){
 // Game loop (not starting it yet)
 function loop(){
     requestAnimationFrame(loop);
-    if(++count < 4){return;}; //Slows game loop to 15 fps instead of 60 (60/15 = 4)
+    if(++count < 4){return;}; //Slows game loop to 15 fps instead of 60 (60/15 = 4).
   
     // Clearing the canvas to start a new frame
     count = 0;
@@ -81,16 +125,19 @@ function loop(){
 
             // Snake eats itself, so it dies
             if(cell.x === snake.cells[i].x && cell.y === snake.cells[i].y){
-                snake.x = 160;
-                snake.y = 160;
-                snake.cells = [];
-                snake.length = 4;
-                snake.dx = grid_size;
-                snake.dy = 0;
-
-                apple.respawn();
-                score = 0;
-                score_zone.innerText = 0;
+                if(score > least_best_score){
+                    players.push({
+                        username: prompt("Enter your username : "),
+                        score: score
+                    });
+                    players.sort((a, b) => b.score - a.score);
+                    localStorage.setItem('snake_players', JSON.stringify(players));
+                    updateScoreboard();
+                }
+                else{
+                    alert("Game over !");
+                };
+                location.reload();
             };
         };
     });

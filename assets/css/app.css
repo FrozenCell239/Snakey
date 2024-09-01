@@ -41,4 +41,33 @@ canvas {
   position: absolute;
   right: 50px;
   top: 10px;
+}
+
+/* Score zone */
+#score_zone {
+  margin: 0;
+  padding: 0;
+}
+
+/* Scoreboard */
+#scoreboard {
+  border: 2px solid whitesmoke;
+  position: absolute;
+  top: 18vh;
+  right: 50px;
+  width: 20vw;
+  height: 70vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#scoreboard hr {
+  background-color: white;
+  height: 0.9px;
+  width: 100%;
+}
+#scoreboard p {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0 0 0;
+  padding: 0;
 }/*# sourceMappingURL=app.css.map */

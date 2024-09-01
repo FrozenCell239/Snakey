@@ -24,11 +24,22 @@
             </div>
         </header>
         <main>
-            <aside>
-                Your score : <span id="score">0</span>
-            </aside>
+            <p id="score-zone">Your score : <span id="score">0</span></p>
             <canvas width="400" height="400" id="canvas"></canvas>
         </main>
         <footer></footer>
+        <aside id="scoreboard">
+            <p>Best scores</p>
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="score_table"></tbody>
+            </table>
+        </aside>
     </body>
 </html>
