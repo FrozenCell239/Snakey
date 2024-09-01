@@ -54,10 +54,13 @@ canvas{
     position: absolute;
     top: 18vh;
     right: 50px;
-    width: 20vw;
+    width: 25vw;
     height: 70vh;
     overflow-y: scroll;
     overflow-x: hidden;
+    table{
+        width: 100%;
+    }
     hr{
         background-color: white;
         height: 0.9px;
@@ -67,8 +70,11 @@ canvas{
         width: 100%;
         text-align: center;
         margin: 10px 0 0 0;
-        padding: 0;
     }
+}
+.player, .player_highscore{
+    padding: 2px 4px 2px 4px;
+    text-align: center;
 }
 
 /* Modals/dialog boxes */

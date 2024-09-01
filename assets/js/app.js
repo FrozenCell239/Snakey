@@ -4,6 +4,7 @@ import { Fruit } from './Entity/Fruit.js';
 const grid_size = 16;
 const snake = new Snake();
 const apple = new Fruit();
+const fake_scores = 20;
 const score_zone = document.getElementById('score');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -18,16 +19,18 @@ let players;
 let least_best_score;
 
 // Getting fake players and their scores for tests
-async function getFakePlayers(min_score = 6, max_score = 18){
+async function getFakePlayers(min_score = 60, max_score = 180){
     try{
-        const response = await fetch('https://randomuser.me/api/?results=20');
+        const response = await fetch('https://randomuser.me/api/?results=' + fake_scores);
         const data = await response.json();
         let new_players = [];
 
+        min_score = Math.floor(min_score / 10);
+        max_score = Math.floor(max_score / 10);
         data.results.forEach(new_player => {
             new_players.push({
                 username: new_player.login.username,
-                score: Math.floor(Math.random() * (max_score - min_score)) + min_score
+                score: (Math.floor(Math.random() * (max_score - min_score)) + min_score) * 10
             });
         });
         return new_players.sort((a, b) => b.score - a.score);
@@ -40,12 +43,12 @@ async function getFakePlayers(min_score = 6, max_score = 18){
 // Updating displayed scoreboard
 function updateScoreboard(){
     const scoreboard = document.getElementById('scoreboard');
-    const number_of_players = 20;
-    for(let i = 0; i < number_of_players; i++){
+
+    for(let i = 0; i < fake_scores; i++){
         const new_player = document.createElement('tr');
-        new_player.innerHTML = `<td>${players[i].username}</td><td>${players[i].score}</td>`;
+        new_player.innerHTML = `<td class="player">${players[i].username}</td><td class="player_highscore">${players[i].score}</td>`;
         scoreboard.appendChild(new_player);
-        if(i + 1 === number_of_players){
+        if(i + 1 === fake_scores){
             least_best_score = players[i].score;
         };
     };
@@ -80,8 +83,8 @@ window.newHighscore = function (){
     const username = document.getElementById('username').value;
 
     // Checking username validity
-    if(!(/^[a-zA-Z0-9._-]+$/.test(username))){
-        alert("You must enter a valid username to save your score and continue.");
+    if(!(/^[a-zA-Z0-9._-]{6,20}$/.test(username))){
+        alert("You must enter a valid username (6 to 20 characters allowed) to save your score and continue.");
         return;
     };
 
@@ -142,14 +145,13 @@ function loop(){
         // Snake ate an apple
         if(cell.x === apple.x && cell.y === apple.y){
             snake.length++;
-            score++;
+            score += 10;
             score_zone.innerText = score;
             apple.respawn();
         }
     
         // Checking collisions
         for(let i = index + 1; i < snake.cells.length; i++){
-
             // Snake eats itself, so it dies
             if(cell.x === snake.cells[i].x && cell.y === snake.cells[i].y){
                 if(score > least_best_score){
