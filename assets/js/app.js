@@ -79,10 +79,13 @@ keyset_select.addEventListener('change', function(event){
 window.newHighscore = function (){
     const username = document.getElementById('username').value;
 
-    if(username === ""){
+    // Checking username validity
+    if(!(/^[a-zA-Z0-9._-]+$/.test(username))){
         alert("You must enter a valid username to save your score and continue.");
         return;
     };
+
+    // Pushing the new highscore to the scoreboard
     players.push({
         username: username,
         score: score
@@ -90,6 +93,7 @@ window.newHighscore = function (){
     players.sort((a, b) => b.score - a.score);
     localStorage.setItem('snake_players', JSON.stringify(players));
     updateScoreboard();
+
     return location.reload();
 };
 
