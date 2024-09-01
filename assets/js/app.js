@@ -46,6 +46,7 @@ function updateScoreboard(){
 
     for(let i = 0; i < fake_scores; i++){
         const new_player = document.createElement('tr');
+    
         new_player.innerHTML = `<td class="player">${players[i].username}</td><td class="player_highscore">${players[i].score}</td>`;
         scoreboard.appendChild(new_player);
         if(i + 1 === fake_scores){
@@ -109,10 +110,10 @@ function loop(){
     count = 0;
     context.clearRect(0, 0, canvas.width, canvas.height);
   
-    // Let the snake move
+    // Letting the snake move
     snake.move();
   
-    // Teleport the snake to the other side of the canvas if it goes out of bounds
+    // Teleporting the snake to the other side of the canvas if it goes out of bounds
     if(snake.x < 0){
         snake.x = canvas.width - grid_size;
     }
@@ -126,21 +127,18 @@ function loop(){
         snake.y = 0;
     };
   
-    // Keep track of where snake has been
+    // Keeping track of where snake has been
     snake.cells.unshift({x: snake.x, y: snake.y});
   
-    // Remove cells as we move away from them
+    // Removing last cell of the snake's tail as it moves
     if(snake.cells.length > snake.length){snake.cells.pop();};
   
-    // Draw apple
-    context.fillStyle = 'red';
-    context.fillRect(apple.x, apple.y, grid_size - 1, grid_size - 1);
+    // Drawing apple
+    apple.draw(context);
   
-    // Draw snake one cell at a time
-    context.fillStyle = 'green';
+    // Drawing snake one cell at a time
     snake.cells.forEach(function(cell, index){
-        // Drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-        context.fillRect(cell.x, cell.y, grid_size - 1, grid_size - 1);
+        snake.draw(context, index);
 
         // Snake ate an apple
         if(cell.x === apple.x && cell.y === apple.y){
@@ -171,9 +169,10 @@ function loop(){
     });
 };
   
-// Listen to keyboard events to move the snake
+// Listening for keyboard controls
 document.addEventListener('keydown', function(event){
     let pressed_key = event.key;
+
     if(pressed_key.length === 1){pressed_key = pressed_key.toUpperCase();};
     switch(pressed_key){
         case keyset[0] :
