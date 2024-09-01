@@ -32,18 +32,19 @@ main{
 canvas{
     border: $default_border;
     background-color: #aaaaaa;
+    cursor: none;
 }
 
 /* Keyset selector */
-#keyset_select{
+#keyset-select{
     position: absolute;
     right: 50px;
     top: 10px;
 }
 
 /* Score zone */
-#score_zone{
-    margin: 0;
+#score-zone{
+    margin: 0 0 5px 0;
     padding: 0;
 }
 
@@ -68,4 +69,46 @@ canvas{
         margin: 10px 0 0 0;
         padding: 0;
     }
+}
+
+/* Modals/dialog boxes */
+dialog{
+    background-color: $background_color;
+    color: $font_main_color;
+    border: $default_border;
+    height: min-content;
+    width: 40%;
+    padding-top: 20px;
+    height: 420px;
+    div{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+dialog::backdrop{
+    background-color: rgb(50, 63, 75);
+    opacity: 0.75;
+}
+#username{
+    width: 60%;
+    height: 30px;
+    margin: 0 0 20px 0;
+}
+#gameover-message{
+    text-align: center;
+}
+#gameover-button{
+    text-align: center;
+    border: $default_border;
+    padding: 5px 10px 5px 10px;
+    color: $font_main_color;
+    text-decoration: none;
+    background-color: #222222;
+}
+#gameover-button:hover{
+    background-color: #444444;
 }
