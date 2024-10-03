@@ -85,7 +85,6 @@ dialog {
   background-color: #0f0f0f;
   color: whitesmoke;
   border: 2px solid whitesmoke;
-  height: -moz-min-content;
   height: min-content;
   width: 40%;
   padding-top: 20px;
